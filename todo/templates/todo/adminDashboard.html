@@ -1,0 +1,187 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'todo/main.css' %}">
+
+	<title>Todo-App</title>
+
+    <!-- <script>
+        $(document).ready(function() {
+            $("#MapView").click(function() {
+                console.log("**");
+                var existingData = JSON.parse(temp);
+                for(var i=0; i<existingData.length; i++)
+                    Map_geometry.push(existingData[i]);
+                console.log(JSON.stringify(Map_geometry));
+                // const tableName = document.getElementById("tableName").innerText;
+                const csrfToken = document.getElementById("csrfToken").innerText;
+                $.ajax({
+                    type: 'POST',
+                    url: '/submitForReview/',
+                    data: {
+                        'values': JSON.stringify(Map_geometry),
+                        'csrfmiddlewaretoken': csrfToken
+                    },
+                    success: function (data) {
+                        alert(data);
+                    }
+                });
+            });
+        });
+    </script> -->
+
+</head>
+<body>
+	<header class="site-header">
+		<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+	    	<div class="container">
+		      	<a class="navbar-brand mr-4" href="{% url 'todo-home' %}">Django Todo-App</a>
+		      	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+		      	<span class="navbar-toggler-icon"></span>
+		      	</button>
+		      	<div class="collapse navbar-collapse" id="navbarToggle">
+		        	<div class="navbar-nav mr-auto">
+		         		<a class="nav-item nav-link" href="{% url 'todo-home' %}">Home</a>
+		        	</div>
+			        <!-- Navbar Right Side -->
+			        <div class="navbar-nav" style=height:50px>
+			        	{% if user.is_authenticated %}
+                            <p class="nav-item nav-link"> Welcome Admin!</p> &nbsp; &nbsp; &nbsp; &nbsp;
+			        		<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+			        	{% else %}
+			        		<a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+			          		<a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+			        	{% endif %}
+			        </div>
+		      	</div>
+		    </div>
+	 	</nav>
+	</header>
+	<main role="main" class="container">
+	  <div class="row">
+	    <div class="col-md-8">
+            <main role="main" class="container">
+                <div class="row">
+                  <div class="col-md-8">
+                  </div>
+                  <div class="col-md-4">
+                      
+                    <!-- <label for="subject-taught">Get a todo</label> -->
+                        <!-- <form action="{% url 'todo-get' %}" method="GET">
+                          <select name="ID" class="custom-select d-block w-100" required >
+                              {% for todos in todoitem %}
+                                  <option value={{todos.auto_inc_id}}>{{ todos.auto_inc_id }}</option>
+                              {% endfor %}
+                          </select>
+                              <button type=submit>Get Todo by Id</button>
+                      </form> -->
+                  </div>
+                </div>
+              </main>
+	    </div>
+
+        <div style=width:100%>
+            <div class="content-section">
+              <h3>My Dashboard</h3>
+  
+  
+              <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Reviewer</th>
+                      <th scope="col">Approvals received</th>
+                      <th scope="col">Required Approvals</th>
+                      <th scope="col">View Map</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                      <td>dfljl</td>
+                      <td>{{ ApprovalCount }}</td>
+                      <td>{{ usersCount }}</td>
+                      <form method="POST" action={% url 'todo-home' %}>
+                          {% csrf_token %}
+                          <input type=hidden name=graphDetails value={{ prevGraph }}></input>
+                          <input type=hidden name=layer value={{ layer }}></input>
+                          <td><button type=submit class="btn btn-info">View graph</button></td>
+                      </form>
+                      <form method="POST" action={% url 'approved-revision' %}>
+                        {% csrf_token %}
+                        {% if approveStatus %}
+                          <td><button type=submit class="btn btn-info">Approve Revision</button></td>
+                        {% else %}
+                          <td><button type=submit class="btn btn-info" disabled>Approve Revision</button></td>
+                        {% endif %}
+                        
+                    </form>
+                  </tr>
+                  </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	    <div style=width:100%>
+	      <div class="content-section">
+	        <h3>My Dashboard</h3>
+
+
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Reviewer</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Date Submitted</th>
+                    <th scope="col">View Map</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for todos in reviewedItems %}
+                <tr>
+                    <td>{{ todos.reviewer }}</td>
+                    <td>{{ todos.status }}</td>
+                    <td>{{ todos.dateSubmitted }}</td>
+                    <form method="POST" action={% url 'admin-graph-view' %}>
+                        {% csrf_token %}
+                        <input type=hidden name=Reviewer value={{ todos.reviewer }}></input>
+                        <input type=hidden name=graphDetails value={{ todos.geometry }}></input>
+                        <input type=hidden name=layer value={{ todos.layer }}></input>
+                        <td><button type=submit class="btn btn-info">View graph</button></td>
+                    </form>
+                </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+	      </div>
+	    </div>
+	  </div>
+	</main>
+
+	<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

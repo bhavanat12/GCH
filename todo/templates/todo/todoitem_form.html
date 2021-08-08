@@ -1,0 +1,16 @@
+{% extends "todo/index.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<div class="content-section d-flex justify-content-center">
+		<form method="POST">
+			{% csrf_token %}
+			<fieldset class="from-group">
+				<legend class="border-bottom md-4">New Todo</legend>
+				{{ form|crispy }}
+			</fieldset>
+			<div class="form-group">
+				<button class="btn btn-outline-info" type="submit">Submit</button>
+			</div>
+		</form>
+	</div>
+{% endblock content %}
