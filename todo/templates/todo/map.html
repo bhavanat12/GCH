@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 <link rel="stylesheet" type="text/css" href="{% static 'todo/main.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'todo/comments.css' %}">
 
   <title>Sketch widget | Sample | ArcGIS API for JavaScript 4.20</title>
 
@@ -284,9 +285,7 @@
           });
         });
 
-        $(document).ready(function() {
-
-            var existEdit = '{{ exists|escapejs }}';
+        var existEdit = '{{ exists|escapejs }}';
             if(existEdit=="True")
             {
               var temp = '{{ geometry|escapejs }}';
@@ -294,6 +293,10 @@
               for(var i=0; i<existingData.length; i++)
                 Map_geometry.push(existingData[i]);
             }
+
+        $(document).ready(function() {
+
+            
 
           $("#submitForReview").click(function() {
           console.log("**");
@@ -355,10 +358,7 @@
         });
 
 
-
-
-
-
+      
     });
 
 
@@ -367,6 +367,16 @@
     });
 
     // var my_chart = document.getElementById("geometry").innerText;
+    
+
+    function openForm() {
+    document.getElementById("myForm").style.display = "block";
+    document.getElementById("CommentData").value = '{{ commentData|escapejs }}'
+  }
+
+  function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+  }
 
   </script>
   
@@ -410,6 +420,21 @@
         <button class="btn btn-success" id="Approve">Approve</button>
       {% else %}
         <button hidden class="btn btn-success" id="Approve">Approve</button>
+      {% endif %}
+      {% if Comments %}
+
+      <button class="open-button" onclick="openForm()">Add Comments</button>
+
+      <div class="form-popup" id="myForm">
+        <form method="POST" action="{% url 'comment-submit' %}" class="form-container">
+          {% csrf_token %}
+          <input type="textarea" placeholder="Enter your comment" name="comment" id="CommentData">
+
+          <button type="submit" class="btn">Save Comment</button>
+          <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+      </div>
+
       {% endif %}
       <br> 
   <div id="viewDiv" style="height:85%;margin-top: 3px;"></div>

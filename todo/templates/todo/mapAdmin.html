@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 <link rel="stylesheet" type="text/css" href="{% static 'todo/main.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'todo/comments.css' %}">
 
   <title>Sketch widget | Sample | ArcGIS API for JavaScript 4.20</title>
 
@@ -376,6 +377,15 @@
 
     // var my_chart = document.getElementById("geometry").innerText;
 
+    function openForm() {
+      document.getElementById("myForm").style.display = "block";
+      document.getElementById("CommentData").value = '{{ commentData|escapejs }}'
+    }
+
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+    }
+
   </script>
   
 </head>
@@ -413,6 +423,27 @@
   <h3 id="geometry" hidden>{{geometry}}</h3>
       <h3 id="csrfToken" hidden>{{ csrf_token }}</h3>
       <button class="btn btn-success" id="ConvertToLayer">Convert To Layer</button>
+
+      <form method="POST" action="{% url 'discard' %}">
+        {% csrf_token %}
+        <input type=hidden value="{{ auto_inc }}" name="auto_inc"></input>
+        <button class="btn btn-warning" id="Discard">Discard</button>
+      </form>
+      
+
+
+      <button class="open-button" onclick="openForm()">View Comments</button>
+
+      <div class="form-popup" id="myForm">
+        <form method="POST" action="" class="form-container">
+          {% csrf_token %}
+          <input type="textarea" placeholder="Enter your comment" name="comment" id="CommentData" readonly>
+          <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+      </div>
+
+
+
   <div id="viewDiv" style="height:85%;margin-top: 3px;"></div>
 </body>
 </html>
