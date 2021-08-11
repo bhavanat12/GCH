@@ -261,13 +261,18 @@
 
           sketch.on("delete", function(event) {
           event.graphics.forEach(function(graphic){
-            console.log("deleted", JSON.stringify(graphic));
+            
+            Map_geometry = Map_geometry.filter(function(el) { return JSON.stringify(el.geometry.rings) !== JSON.stringify(graphic.geometry.rings); })
+            
           });
         });
 
+
+            
+
+
         $(document).ready(function() {
 
-          $("#ConvertToLayer").click(function() {
           var existingData = JSON.parse(temp);
             for(var i=0; i<existingData.length; i++)
               Map_geometry.push(existingData[i]);
@@ -278,6 +283,8 @@
                 Map_geometry.push(prevLayers[i])
             }
             //console.log(JSON.stringify(Map_geometry));
+
+          $("#ConvertToLayer").click(function() {
 
 
             for (var i=0; i<Map_geometry.length; i++)

@@ -30,7 +30,7 @@
 			        <!-- Navbar Right Side -->
 			        <div class="navbar-nav" style=height:50px>
 			        	{% if user.is_authenticated %}
-                            <p class="nav-item nav-link"> Welcome Admin!</p> &nbsp; &nbsp; &nbsp; &nbsp;
+                            <p class="nav-item nav-link"> Welcome {{ loggedInUser }}!</p> &nbsp; &nbsp; &nbsp; &nbsp;
 			        		<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
 			        	{% else %}
 			        		<a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
@@ -50,15 +50,7 @@
                   </div>
                   <div class="col-md-4">
                       
-                    <!-- <label for="subject-taught">Get a todo</label> -->
-                        <!-- <form action="{% url 'todo-get' %}" method="GET">
-                          <select name="ID" class="custom-select d-block w-100" required >
-                              {% for todos in todoitem %}
-                                  <option value={{todos.auto_inc_id}}>{{ todos.auto_inc_id }}</option>
-                              {% endfor %}
-                          </select>
-                              <button type=submit>Get Todo by Id</button>
-                      </form> -->
+                    
                   </div>
                 </div>
               </main>
@@ -94,7 +86,11 @@
 
                     <form method="POST" action={% url 'approved-map' %}>
                         {% csrf_token %}
+                        {% if grantAccess %}
                         <td><button type=submit class="btn btn-info">Sent for Review</button></td>
+                        {% else %}
+                        <td><button type=submit class="btn btn-info" disabled>Sent for Review</button></td>
+                        {% endif %}
                     </form>
 
                 </tr>

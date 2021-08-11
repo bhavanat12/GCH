@@ -11,7 +11,7 @@ urlpatterns = [
     path('submitForReview/', submitForReview),
     path('AdminMapView/', AdminGraphView, name='admin-graph-view'),
     path('FinalSubmit/', FinalSubmit),
-    path('approve/', Approval),
+    path('approve/', Approval, name='user-approve'),
     path('ApprovedMap/', SentForApprovalMap, name='approved-map'),
     path('SaveRevision/', SaveApprovedVersion, name='approved-revision'),
     path('GetLatestRevision/', GetLatestRevision, name='latest-revision'),

@@ -8,6 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.apps import apps
 from datetime import datetime
 
+import json
+
 
 @login_required(login_url='login')
 def TodoListView(request):
@@ -64,8 +66,16 @@ def TodoListView(request):
 	# 	'todoitem': items
 	# }
 
-	loggedInUser = request.user
-	context["loggedInUser"] = loggedInUser
+	loggedInUser = str(request.user)
+	context = {"loggedInUser" : loggedInUser}
+
+	obj = FinalMaps.objects.all().last()
+	approvedBy = json.loads(obj.approvedBy)
+	if str(request.user) in approvedBy:
+		context["grantAccess"] = False
+	else:
+		context["grantAccess"] = True
+
 
 
 	return render(request,'todo/userDashboard.html',context)
@@ -247,13 +257,17 @@ def Approval(request):
 	if request.method == 'POST':
 		obj = FinalMaps.objects.all().last()
 		obj.approvalCount = obj.approvalCount + 1
+		userApprovals = json.loads(obj.approvedBy)
+		userApprovals[str(request.user)] = 1
+		obj.approvedBy = json.dumps(userApprovals)
 		obj.save()
 
-		return HttpResponse("Approval sent Successfully!")
+		return redirect("todo-home")
 
 
 @login_required(login_url='login')
 def SentForApprovalMap(request):
+	context = {"loggedInUser": str(request.user)}
 	if request.method == 'POST':
 		if FinalMaps.objects.exists():
 			obj = FinalMaps.objects.all().last()
@@ -262,7 +276,6 @@ def SentForApprovalMap(request):
 				mapdata = obj.mapItem
 				layer = obj.layerURL
 
-				context = {}
 
 				context["latestFeaturesExist"] = "True"
 				context["mapItem"] = mapdata
@@ -323,7 +336,8 @@ def GetLatestRevision(request):
 			"layerURL": layerURL,
 			"mapItem": mapItem,
 			"latestFeaturesExist": latestFeaturesExist,
-			"Approve": False
+			"Approve": False,
+			"loggedInUser": str(request.user)
 		}
 
 		return render(request, 'todo/map.html',context)

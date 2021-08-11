@@ -40,6 +40,7 @@ class FinalMaps(models.Model):
 	dateSubmitted = models.DateTimeField(auto_now_add=True)
 	approvalCount = models.IntegerField(default=0)
 	reviewerReadable = models.TextField(default="False")
+	approvedBy = models.TextField(default="{}")
 
 
 class ApprovedMap(models.Model):

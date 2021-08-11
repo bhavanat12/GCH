@@ -281,7 +281,9 @@
 
           sketch.on("delete", function(event) {
           event.graphics.forEach(function(graphic){
-            console.log("deleted", JSON.stringify(graphic));
+            
+            Map_geometry = Map_geometry.filter(function(el) { return JSON.stringify(el.geometry.rings) !== JSON.stringify(graphic.geometry.rings); })
+            
           });
         });
 
@@ -340,22 +342,22 @@
 
 
 
-        $("#Approve").click(function() {
-          console.log("**");
-            console.log(JSON.stringify(Map_geometry));
-            // const tableName = document.getElementById("tableName").innerText;
-            const csrfToken = document.getElementById("csrfToken").innerText;
-            $.ajax({
-                type: 'POST',
-                url: '/approve/',
-                data: {
-                    'csrfmiddlewaretoken': csrfToken
-                },
-                success: function (data) {
-                    alert(data);
-                }
-            });
-        });
+        // $("#Approve").click(function() {
+        //   console.log("**");
+        //     console.log(JSON.stringify(Map_geometry));
+        //     // const tableName = document.getElementById("tableName").innerText;
+        //     const csrfToken = document.getElementById("csrfToken").innerText;
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: '/approve/',
+        //         data: {
+        //             'csrfmiddlewaretoken': csrfToken
+        //         },
+        //         success: function () {
+        //             console.log("Success");
+        //         }
+        //     });
+        // });
 
 
       
@@ -416,11 +418,19 @@
       <h3 id="csrfToken" hidden>{{ csrf_token }}</h3>
       <button class="btn btn-info" id="updateSubmit">Save Changes</button>
       <button class="btn btn-warning" id="submitForReview">Submit For Review</button>
-      {% if Approve %}
+
+
+      <form method="POST" action="{% url 'user-approve' %}">
+        {% csrf_token %}
+        {% if Approve %}
         <button class="btn btn-success" id="Approve">Approve</button>
-      {% else %}
-        <button hidden class="btn btn-success" id="Approve">Approve</button>
-      {% endif %}
+        {% else %}
+          <button hidden class="btn btn-success" id="Approve">Approve</button>
+        {% endif %}
+      </form>
+      
+
+
       {% if Comments %}
 
       <button class="open-button" onclick="openForm()">Add Comments</button>
