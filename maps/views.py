@@ -266,7 +266,11 @@ def SentForApprovalMap(request):
 				context["latestFeaturesExist"] = "True"
 				context["mapItem"] = mapdata
 				context["layer"] = layer
-				context["Approve"]= True
+				approvedUsers = json.loads(obj.approvedBy)
+				if str(request.user) in approvedUsers:
+					context["Approve"]= False
+				else:
+					context["Approve"]= True
 				context["Comments"] = True
 
 				if MapGeometry.objects.exists():
