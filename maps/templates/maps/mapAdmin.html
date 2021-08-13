@@ -1,0 +1,492 @@
+{% load static %}
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<link rel="stylesheet" type="text/css" href="{% static 'maps/main.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'maps/comments.css' %}">
+
+  <title>Sketch widget | Sample | ArcGIS API for JavaScript 4.20</title>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.20/esri/themes/light/main.css" />
+  <script src="https://js.arcgis.com/4.20/"></script>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  
+  <script>
+
+    require([
+      "esri/WebMap",
+      "esri/Graphic",
+      "esri/widgets/Sketch",
+      "esri/Map",
+      "esri/layers/GraphicsLayer",
+      "esri/views/MapView",
+      "esri/layers/FeatureLayer"
+    ], (WebMap, Graphic, Sketch, Map, GraphicsLayer, MapView, FeatureLayer) => {
+        const graphicsLayer = new GraphicsLayer();
+
+      const map = new Map({
+        basemap: "topo-vector",
+        layers: [graphicsLayer]
+      });
+
+
+      var layer = '{{ layer|escapejs }}';
+
+      //Trailheads feature layer (points)
+      const trailheadsLayer = new FeatureLayer({
+          url: layer
+        });
+      
+        map.add(trailheadsLayer);
+        // map.add(JSON.parse(temp));
+
+        var EditExist = '{{ exists|escapejs }}';
+        var prevExist = '{{ prevRevision|escapejs }}';
+
+        if(prevExist == "True")
+        {
+          var prevData = '{{ prevGraph|escapejs }}';
+          var prevLayers = JSON.parse(prevData);
+
+          for (var i=0; i<prevLayers.length; i++)
+            {
+                if(prevLayers[i].geometry.rings)
+              {
+                const polygon = {
+                    type: "polygon",
+                    rings: prevLayers[i].geometry.rings[0],
+                    spatialReference:prevLayers[i].geometry.spatialReference
+                };
+
+                const simpleFillSymbol = {
+                    type: "simple-fill",
+                    color: [0, 0, 124, 0.8],  // Orange, opacity 80%
+                    outline: {
+                        color: prevLayers[i].symbol.outline.color,
+                        width: prevLayers[i].symbol.outline.width
+                    }
+                };
+
+                let Polygonlayer = new FeatureLayer({
+                source: [{geometry: polygon, symbol: simpleFillSymbol}],
+                objectIdField: "ObjectID"
+              });
+
+              map.add(Polygonlayer);
+
+              } else if(prevLayers[i].geometry.paths)
+              {
+                  const polyline = {
+                      type: "polyline",
+                      paths: prevLayers[i].geometry.paths[0],
+                      spatialReference:prevLayers[i].geometry.spatialReference
+                  };
+
+                  const simpleFillSymbol = {
+                      type: "simple-line",
+                      color: [0, 0, 124, 0.8],  // Orange, opacity 80%
+                      width: prevLayers[i].symbol.width
+                  };
+
+                  let polylinelayer = new FeatureLayer({
+                    source: [{geometry: polyline, symbol: simpleFillSymbol}],
+                    objectIdField: "ObjectID"
+                  });
+
+                  map.add(polylinelayer);
+
+              } else
+              {
+                  const point = {
+                      type: "point",
+                      x: prevLayers[i].geometry.x,
+                      y: prevLayers[i].geometry.y,
+                      spatialReference:prevLayers[i].geometry.spatialReference
+                  };
+
+
+                  const simpleFillSymbol = {
+                      type: "simple-marker",
+                      color: [0, 0, 124, 0.8],  // Orange, opacity 80%
+                      width: prevLayers[i].symbol.width
+                  };
+
+                  let pointlayer = new FeatureLayer({
+                    source: [{geometry: point, symbol: simpleFillSymbol, geometryType: "simple"}],
+                    objectIdField: "ObjectID"
+                  });
+
+                  map.add(pointlayer);
+
+              }
+            }
+        }
+
+
+        var Map_geometry = [];
+
+        var reviewer = '{{ reviewer|escapejs }}';
+
+        if(EditExist=="True")
+        {
+          var temp = '{{ geometry|escapejs }}';
+          var temp1 = JSON.parse(temp);
+
+
+          for (var i=0; i<temp1.length; i++)
+          {
+              if(temp1[i].geometry.rings)
+            {
+              const polygon = {
+                  type: "polygon",
+                  rings: temp1[i].geometry.rings[0],
+                  spatialReference:temp1[i].geometry.spatialReference
+              };
+
+              const simpleFillSymbol = {
+                  type: "simple-fill",
+                  color: [226, 119, 40, 0.8],  // Orange, opacity 80%
+                  outline: {
+                      color: temp1[i].symbol.outline.color,
+                      width: temp1[i].symbol.outline.width
+                  }
+              };
+
+              const polygonGraphic = new Graphic({
+              geometry: polygon, // Add the geometry created in step 4
+              symbol: simpleFillSymbol
+              });
+
+              graphicsLayer.add(polygonGraphic);
+
+            } else if(temp1[i].geometry.paths)
+            {
+                const polyline = {
+                    type: "polyline",
+                    paths: temp1[i].geometry.paths[0],
+                    spatialReference:temp1[i].geometry.spatialReference
+                };
+
+                const simpleFillSymbol = {
+                    type: "simple-line",
+                    color: [226, 119, 40, 0.8],  // Orange, opacity 80%
+                    width: temp1[i].symbol.width
+                };
+
+                const polylineGraphic = new Graphic({
+                geometry: polyline, // Add the geometry created in step 4
+                symbol: simpleFillSymbol
+                });
+
+                graphicsLayer.add(polylineGraphic);
+            } else
+            {
+                const point = {
+                    type: "point",
+                    x: temp1[i].geometry.x,
+                    y: temp1[i].geometry.y,
+                    spatialReference:temp1[i].geometry.spatialReference
+                };
+
+                const simpleFillSymbol = {
+                    type: "simple-marker",
+                    color: [226, 119, 40, 0.8],  // Orange, opacity 80%
+                    width: temp1[i].symbol.width
+                };
+
+                const pointGraphic = new Graphic({
+                geometry: point, // Add the geometry created in step 4
+                symbol: simpleFillSymbol
+                });
+
+                graphicsLayer.add(pointGraphic);
+            }
+
+          }
+        }
+
+        
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        zoom: 4,
+        center: [20.93,6.6]
+      });
+
+      view.when(() => {
+        const sketch = new Sketch({
+          layer: graphicsLayer,
+          view: view,
+          // graphic will be selected as soon as it is created
+          creationMode: "update"
+        });
+
+          sketch.on("create", function (event) {
+              // check if the create event's state has changed to complete indicating
+              // the graphic create operation is completed.
+              if (event.state === "complete") {
+                  // remove the graphic from the layer. Sketch adds
+                  // the completed graphic to the layer by default.
+                  //polygonGraphicsLayer.remove(event.graphic);
+                  Map_geometry.push(event.graphic)
+              }
+          });
+
+          sketch.on("delete", function(event) {
+          event.graphics.forEach(function(graphic){
+            
+            Map_geometry = Map_geometry.filter(function(el) { return JSON.stringify(el.geometry.rings) !== JSON.stringify(graphic.geometry.rings); })
+            
+          });
+        });
+
+
+            
+
+
+        $(document).ready(function() {
+
+          var existingData = JSON.parse(temp);
+            for(var i=0; i<existingData.length; i++)
+              Map_geometry.push(existingData[i]);
+
+            if(prevExist=="True")
+            {
+              for(var i=0; i<prevLayers.length; i++)
+                Map_geometry.push(prevLayers[i])
+            }
+
+
+
+            $("#ConvertToImage").click(function() {
+
+              var imgData;
+
+            // Take a screenshot at the same resolution of the current view
+            view.takeScreenshot({format:'png'}).then(function(screenshot) {
+              let imageElement = document.getElementById("MapImage");
+              imageElement.value = screenshot.dataUrl;
+              // window.imgData = screenshot.dataUrl;
+              // imgData = screenshot.dataUrl
+            });
+
+
+            // const csrfToken = document.getElementById("csrfToken").innerText;
+            // $.ajax({
+            //     type: 'POST',
+            //     url: '/submitMap/',
+            //     data: {
+            //         'values': JSON.stringify(Map_geometry),
+            //         'csrfmiddlewaretoken': csrfToken
+            //     },
+            //     success: function (data) {
+            //         alert(data);
+            //     }
+            // });
+        });
+
+
+
+          $("#ConvertToLayer").click(function() {
+
+            var commentData = '{{ commentData|escapejs }}'
+
+            
+
+            for (var i=0; i<Map_geometry.length; i++)
+            {
+                if(Map_geometry[i].geometry.rings)
+              {
+                const polygon = {
+                    type: "polygon",
+                    rings: Map_geometry[i].geometry.rings[0],
+                    spatialReference:Map_geometry[i].geometry.spatialReference
+                };
+
+                const simpleFillSymbol = {
+                    type: "simple-fill",
+                    color: [0, 0, 124, 0.8],  // Orange, opacity 80%
+                    outline: {
+                        color: Map_geometry[i].symbol.outline.color,
+                        width: Map_geometry[i].symbol.outline.width
+                    }
+                };
+
+                let Polygonlayer = new FeatureLayer({
+                source: [{geometry: polygon, symbol: simpleFillSymbol}],
+                objectIdField: "ObjectID"
+              });
+
+              map.add(Polygonlayer);
+
+              } else if(Map_geometry[i].geometry.paths)
+              {
+                  const polyline = {
+                      type: "polyline",
+                      paths: Map_geometry[i].geometry.paths[0],
+                      spatialReference:Map_geometry[i].geometry.spatialReference
+                  };
+
+                  const simpleFillSymbol = {
+                      type: "simple-line",
+                      color: [0, 0, 124, 0.8],  // Orange, opacity 80%
+                      width: Map_geometry[i].symbol.width
+                  };
+
+                  let polylinelayer = new FeatureLayer({
+                    source: [{geometry: polyline, symbol: simpleFillSymbol}],
+                    objectIdField: "ObjectID"
+                  });
+
+                  map.add(polylinelayer);
+
+              } else
+              {
+                  const point = {
+                      type: "point",
+                      x: Map_geometry[i].geometry.x,
+                      y: Map_geometry[i].geometry.y,
+                      spatialReference:Map_geometry[i].geometry.spatialReference
+                  };
+
+                  //console.log(point);
+
+                  const simpleFillSymbol = {
+                      type: "simple-marker",
+                      color: [0, 0, 124, 0.8],  // Orange, opacity 80%
+                      width: Map_geometry[i].symbol.width
+                  };
+
+                  let pointlayer = new FeatureLayer({
+                    source: [{geometry: point, symbol: simpleFillSymbol, geometryType: "simple"}],
+                    objectIdField: "ObjectID"
+                  });
+
+                  map.add(pointlayer);
+
+              }
+            }
+
+            // const tableName = document.getElementById("tableName").innerText;
+            const csrfToken = document.getElementById("csrfToken").innerText;
+            $.ajax({
+                type: 'POST',
+                url: '/FinalSubmit/',
+                data: {
+                    'values': JSON.stringify(Map_geometry),
+                    'commentData': commentData,
+                    'reviewer':reviewer,
+                    'imgData': document.getElementById("MapImage").value,
+                    'csrfmiddlewaretoken': csrfToken
+                },
+                success: function (data) {
+                    alert("Successfully converted to layer");
+                }
+            });
+        });
+    });
+
+        view.ui.add(sketch, "top-right");
+      });
+    });
+
+    // var my_chart = document.getElementById("geometry").innerText;
+
+    function openForm() {
+      document.getElementById("myForm").style.display = "block";
+      document.getElementById("CommentData").value = '{{ commentData|escapejs }}'
+    }
+
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+    }
+
+  </script>
+  
+</head>
+
+<body>
+    <header class="site-header">
+		<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+	    	<div class="container">
+		      	<a class="navbar-brand mr-4" href="{% url 'dashboard-home' %}">Django App</a>
+		      	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+		      	<span class="navbar-toggler-icon"></span>
+		      	</button>
+		      	<div class="collapse navbar-collapse" id="navbarToggle">
+		        	<div class="navbar-nav mr-auto">
+		         		<a class="nav-item nav-link" href="{% url 'dashboard-home' %}">Home</a>
+		        	</div>
+			        <!-- Navbar Right Side -->
+			        <div class="navbar-nav" style=height:50px>
+			        	{% if user.is_authenticated %}
+                <p class="nav-item nav-link"> Welcome Admin!</p> &nbsp; &nbsp; &nbsp; &nbsp;
+			        		<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+			        	{% else %}
+			        		<a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+			          		<a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+			        	{% endif %}
+			        </div>
+		      	</div>
+		    </div>
+	 	</nav>
+	</header>
+    <br><br><br>
+    <div id="global-csrftoken">
+      {% csrf_token %}
+  </div>
+  <h3 id="geometry" hidden>{{geometry}}</h3>
+      <h3 id="csrfToken" hidden>{{ csrf_token }}</h3>
+      <button class="btn btn-success" id="ConvertToLayer">Convert To Layer</button>
+      <button class="btn btn-success" id="ConvertToImage">Convert to Image</button>
+
+      <form method="POST" action="{% url 'discard' %}">
+        {% csrf_token %}
+        <input type=hidden value="{{ auto_inc }}" name="auto_inc"></input>
+        <button class="btn btn-warning" id="Discard">Discard</button>
+      </form>
+      
+      {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+      <button class="open-button" onclick="openForm()">View Comments</button>
+
+      <div class="form-popup" id="myForm">
+        <form method="POST" action="" class="form-container">
+          {% csrf_token %}
+          <input type="textarea" placeholder="Enter your comment" name="comment" id="CommentData" readonly>
+          <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+      </div>
+
+
+
+  <div id="viewDiv" style="height:85%;margin-top: 3px;"></div>
+  <input type=hidden id="MapImage"></input>
+
+  {% load sweetify %}
+  {% sweetify %}
+</body>
+</html>

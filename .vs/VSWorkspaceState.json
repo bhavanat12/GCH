@@ -1,10 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\todo",
-    "\\todo\\templates",
-    "\\todo\\templates\\todo"
+    "\\maps",
+    "\\maps\\templates",
+    "\\maps\\templates\\maps"
   ],
-  "SelectedNode": "\\todo\\templates\\todo\\map.html",
+  "SelectedNode": "\\maps\\templates\\maps\\map.html",
   "PreviewInSolutionExplorer": false
 }

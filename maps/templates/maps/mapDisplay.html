@@ -1,0 +1,92 @@
+{% load static %}
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <link rel="stylesheet" type="text/css" href="{% static 'maps/main.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'maps/comments.css' %}">
+
+
+  <title>Map Document</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.20/esri/themes/light/main.css" />
+  <script src="https://js.arcgis.com/4.20/"></script>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+
+  <script>
+    $(document).ready(function(){
+      $("#hide").click(function(){
+        $("button").hide();
+        window.print()
+      });
+      $("#show").click(function(){
+        $("p").show();
+      });
+    });
+  </script>
+</head>
+
+<body>
+    
+    <button id="hide">Print this Map</button>
+    <br><br>
+    <center>
+      <div>
+          <img src="{% static "maps/media/JGlogo.jpg" %}" width="500" height="100"/>
+      </div>
+    </center>
+
+    <center>
+          <div>
+                 
+            <table class="table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+
+                {% for map in reviewedItems %}
+                <tr>
+                    <td>Revision:{{ map.counter }}</td>
+                    <td><img src={{ map.imageData }}></td>
+                    <td>{% for user, comment in map.commentData.items %}
+                        {{ user }}: 
+                        {{ comment }}
+                              
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </center>
+</body>
+</html>
+
