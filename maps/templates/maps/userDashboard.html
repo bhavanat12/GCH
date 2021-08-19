@@ -15,26 +15,27 @@
 
 
 </head>
-<body>
+<body class="background" style="background-image: url('{% static "maps/media/background.jpeg" %}')";>
 	<header class="site-header">
-		<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+		<nav class="navbar navbar-expand-md fixed-top" style="margin: 10px;opacity: 0.8;filter:(opacity=80); height:100px;border: 5px solid #6e8824;background-color:white; width: 70%; position: absolute;left: 14%;">
 	    	<div class="container">
-		      	<a class="navbar-brand mr-4" href="{% url 'dashboard-home' %}">Django App</a>
-		      	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+		      	<a class="navbar-brand mr-4" href="{% url 'dashboard-home' %}">
+              <img src="{% static 'maps/media/Logo.jpg' %}" href="{% url 'dashboard-home' %}" style="height: 90px;" alt="My image">
+		      	</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
 		      	<span class="navbar-toggler-icon"></span>
 		      	</button>
 		      	<div class="collapse navbar-collapse" id="navbarToggle">
 		        	<div class="navbar-nav mr-auto">
-		         		<a class="nav-item nav-link" href="{% url 'dashboard-home' %}">Home</a>
+		         		<a class="nav-item nav-link" style="color: #6e8824 !;" href="{% url 'dashboard-home' %}">Home</a>
 		        	</div>
-			        <!-- Navbar Right Side -->
-			        <div class="navbar-nav" style=height:50px>
+			        <div class="navbar-nav" style=height:42px>
 			        	{% if user.is_authenticated %}
-                            <p class="nav-item nav-link"> Welcome {{ loggedInUser }}!</p> &nbsp; &nbsp; &nbsp; &nbsp;
-			        		<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                            <p class="nav-item nav-link" style="color: #6e8824 !;"> Welcome {{loggedInUser}}!</p> &nbsp; &nbsp; &nbsp; &nbsp;
+			        		<a class="nav-item nav-link" style="color: #6e8824 !;" href="{% url 'logout' %}">Logout</a>
 			        	{% else %}
-			        		<a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-			          		<a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+			        		<a class="nav-item nav-link" style="color: #6e8824 !;" href="{% url 'login' %}">Login</a>
+			          		<a class="nav-item nav-link" style="color: #6e8824 !;" href="{% url 'register' %}">Register</a>
 			        	{% endif %}
 			        </div>
 		      	</div>
@@ -42,66 +43,74 @@
 	 	</nav>
 	</header>
 	<main role="main" class="container">
-	  <div class="row">
-	    <div class="col-md-8">
-            <main role="main" class="container">
-                <div class="row">
-                  <div class="col-md-8">
-                  </div>
-                  <div class="col-md-4">
-                      
-                    
-                  </div>
-                </div>
-              </main>
+    <div class="content-section flex" style="position: absolute;top:72%;left:14.5%">
+      <form method="POST" action={% url 'my-map-view' %}>
+        {% csrf_token %}
+        <button type="submit" class="btn flex-child">View Saved Map
+          <!-- <hr>  -->
+          <!-- <p></p> -->
+        </button>
+      </form>
+      
+      <form method="POST" action={% url 'latest-revision' %}>
+        {% csrf_token %}
+        <button type="submit" class="btn flex-child">Latest Approved Map</button>
+      </form>
+
+      <form method="POST" action={% url 'approved-map' %}>
+        {% csrf_token %}
+        {% if grantAccess %}
+        <td><button type=submit class="btn flex-child">Sent for Review</button></td>
+        {% else %}
+        <td><button type=submit class="btn flex-child" disabled>Sent for Review</button></td>
+        {% endif %}
+      </form>
+
+      <!-- <form method="POST" action="http://localhost:8000/ApprovedMap/">
+        <input type="hidden" name="csrfmiddlewaretoken" value="289Cxb3VF9vrGS9vwOGentRFYEqDL26xScIgKOpLYvIXTWIjTYYMx608kZEX1jXo">
+        
+        <button type="submit" class="btn flex-child" disabled="">Sent for Review</button>
+        
+    </form> -->
+    </div>
+    <!-- <div class="content-section">
+      <h3>My Dashboard</h3>
+
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Reviewer</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date Submitted</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <form method="POST" action={% url 'my-map-view' %}>
+                    {% csrf_token %}
+                    <td><button type=submit class="btn btn-info">My Map</button></td>
+                </form>
+                
+                <form method="POST" action={% url 'latest-revision' %}>
+                  {% csrf_token %}
+                    <td><button type=submit class="btn btn-info">Latest Map</button></td>
+                </form>
+
+                <form method="POST" action={% url 'approved-map' %}>
+                    {% csrf_token %}
+                    {% if grantAccess %}
+                    <td><button type=submit class="btn btn-info">Sent for Review</button></td>
+                    {% else %}
+                    <td><button type=submit class="btn btn-info" disabled>Sent for Review</button></td>
+                    {% endif %}
+                </form>
+
+            </tr>
+            </tbody>
+          </table>
+	      </div> -->
 	    </div>
-	    <div style=width:100%>
-	      <div class="content-section">
-	        <h3>My Dashboard</h3>
-          {% if messages %}
-          <ul class="messages">
-              {% for message in messages %}
-              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-              {% endfor %}
-          </ul>
-          {% endif %}
-
-            <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">Reviewer</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Date Submitted</th>
-                    
-                  </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <form method="POST" action={% url 'my-map-view' %}>
-                        {% csrf_token %}
-                        <td><button type=submit class="btn btn-info">My Map</button></td>
-                    </form>
-                    
-                    <form method="POST" action={% url 'latest-revision' %}>
-                      {% csrf_token %}
-                        <td><button type=submit class="btn btn-info">Latest Map</button></td>
-                    </form>
-
-                    <form method="POST" action={% url 'approved-map' %}>
-                        {% csrf_token %}
-                        {% if grantAccess %}
-                        <td><button type=submit class="btn btn-info">Sent for Review</button></td>
-                        {% else %}
-                        <td><button type=submit class="btn btn-info" disabled>Sent for Review</button></td>
-                        {% endif %}
-                    </form>
-
-                </tr>
-                </tbody>
-              </table>
-	      </div>
-	    </div>
-	  </div>
 	</main>
 
 	<!-- Optional JavaScript -->
@@ -110,7 +119,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    {% load sweetify %}
-    {% sweetify %}
+
   </body>
 </html>

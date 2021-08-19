@@ -8,6 +8,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
 <link rel="stylesheet" type="text/css" href="{% static 'maps/main.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'maps/comments.css' %}">
@@ -423,55 +424,50 @@
 </head>
 
 <body>
-    <header class="site-header">
-		<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+  <header class="site-header">
+		<nav class="navbar navbar-expand-md fixed-top" style="margin: 10px;opacity: 0.8;filter:(opacity=80); height:100px;border: 5px solid #6e8824;background-color:white; width: 70%; position: absolute;left: 14%;">
 	    	<div class="container">
-		      	<a class="navbar-brand mr-4" href="{% url 'dashboard-home' %}">Django App</a>
-		      	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+		      	<a class="navbar-brand mr-4" href="{% url 'dashboard-home' %}">
+              <img src="{% static 'maps/media/Logo.jpg' %}" href="{% url 'dashboard-home' %}" style="height: 90px;" alt="My image">
+		      	</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
 		      	<span class="navbar-toggler-icon"></span>
 		      	</button>
 		      	<div class="collapse navbar-collapse" id="navbarToggle">
 		        	<div class="navbar-nav mr-auto">
-		         		<a class="nav-item nav-link" href="{% url 'dashboard-home' %}">Home</a>
+		         		<a class="nav-item nav-link" style="color: #6e8824 !;" href="{% url 'dashboard-home' %}">Home</a>
 		        	</div>
-			        <!-- Navbar Right Side -->
-			        <div class="navbar-nav" style=height:50px>
+			        <div class="navbar-nav" style=height:42px>
 			        	{% if user.is_authenticated %}
-                <p class="nav-item nav-link"> Welcome Admin!</p> &nbsp; &nbsp; &nbsp; &nbsp;
-			        		<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                            <p class="nav-item nav-link" style="color: #6e8824 !;"> Welcome Admin!</p> &nbsp; &nbsp; &nbsp; &nbsp;
+			        		<a class="nav-item nav-link" style="color: #6e8824 !;" href="{% url 'logout' %}">Logout</a>
 			        	{% else %}
-			        		<a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-			          		<a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+			        		<a class="nav-item nav-link" style="color: #6e8824 !;" href="{% url 'login' %}">Login</a>
+			          		<a class="nav-item nav-link" style="color: #6e8824 !;" href="{% url 'register' %}">Register</a>
 			        	{% endif %}
 			        </div>
 		      	</div>
 		    </div>
 	 	</nav>
 	</header>
-    <br><br><br>
+    <br><br><br><br>
     <div id="global-csrftoken">
       {% csrf_token %}
   </div>
   <h3 id="geometry" hidden>{{geometry}}</h3>
       <h3 id="csrfToken" hidden>{{ csrf_token }}</h3>
-      <button class="btn btn-success" id="ConvertToLayer">Convert To Layer</button>
-      <button class="btn btn-success" id="ConvertToImage">Convert to Image</button>
+      <button class="btn btn-info" style="margin-bottom: 0.62%; margin-top: 0.92%; margin-left:12%; color: white" id="ConvertToLayer">Confirm Changes <i class="fas fa-share-square"></i></button>
+      <button class="btn btn-info open-button" style="margin-bottom: 0.62%; margin-top: 0.92%; margin-right: 11%; float: right;" onclick="openForm()">View Comments <i class="fas fa-comments"></i></button>
+      <button class="btn btn-success" style="margin-bottom: 0.62%; margin-top: 0.92%; margin-right: 26%; float: right;" id="ConvertToImage"><i class="far fa-bookmark"></i> Save Map Image in Report</button>
 
       <form method="POST" action="{% url 'discard' %}">
         {% csrf_token %}
         <input type=hidden value="{{ auto_inc }}" name="auto_inc"></input>
-        <button class="btn btn-warning" id="Discard">Discard</button>
+        <button class="btn btn-danger" style="margin-right: 50%;float: right" id="Discard">Discard</button>
       </form>
       
-      {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
 
-      <button class="open-button" onclick="openForm()">View Comments</button>
+
 
       <div class="form-popup" id="myForm">
         <form method="POST" action="" class="form-container">
@@ -483,10 +479,8 @@
 
 
 
-  <div id="viewDiv" style="height:85%;margin-top: 3px;"></div>
+  <div id="viewDiv" style="height:77%"></div>
   <input type=hidden id="MapImage"></input>
 
-  {% load sweetify %}
-  {% sweetify %}
 </body>
 </html>

@@ -2,6 +2,7 @@ body {
   background: #fafafa;
   color: #333333;
   margin-top: 5rem;
+  font-style: "futura-pt","Source Sans Pro",arial,helvetica,sans-serif !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -12,16 +13,24 @@ ul {
   margin: 0;
 }
 
+td{
+  font-weight:600;
+}
+
 .bg-steel {
   background-color: #5f788a;
 }
 
 .site-header .navbar-nav .nav-link {
-  color: #cbd5db;
+  color: #88af1c;
+  font-size:19px;
+  font-weight: bold;
+  font-style: "futura-pt","Source Sans Pro",arial,helvetica,sans-serif;;
 }
 
 .site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
+  color: #000000;
+  font-size:19px;
 }
 
 .site-header .navbar-nav .nav-link.active {
@@ -29,11 +38,11 @@ ul {
 }
 
 .content-section {
-  background: #ffffff;
+  /* background: #ffffff; */
   padding: 10px 20px;
-  border: 1px solid #dddddd;
+  /* border: 1px solid #dddddd; */
   border-radius: 3px;
-  margin-bottom: 20px;
+  /* margin-top: 50%; */
 }
 
 .article-title {
@@ -81,4 +90,67 @@ a.article-title:hover {
 
 .account-heading {
   font-size: 2.5rem;
+}
+.background{
+  background-position: center;
+  /* background-size: contain; */
+  background-size:100% 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+  background-color: rgba(255,255,255,0.15);
+  background-blend-mode: lighten;
+}
+
+.flex {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.flex-child {
+  -webkit-box-flex: 1 1 auto;
+  -moz-box-flex:  1 1 auto;
+  -webkit-flex:  1 1 auto;
+  -ms-flex:  1 1 auto;
+  flex:  1 1 auto;
+  font-size: 40px;
+  background-color: #6e8824;
+  opacity: 80%;
+  margin: 30px;
+  color:white;
+  font-weight: bold;
+  font-style: "futura-pt","Source Sans Pro",arial,helvetica,sans-serif;
+}
+
+.flex-child:hover{
+  -webkit-box-flex: 1 1 auto;
+  -moz-box-flex:  1 1 auto;
+  -webkit-flex:  1 1 auto;
+  -ms-flex:  1 1 auto;
+  flex:  1 1 auto;
+  font-size: 40px;
+  background-color:white;
+  opacity: 70%;
+  margin: 30px;
+  color:#6e8824;
+  font-weight: bold;
+  font-style: "futura-pt","Source Sans Pro",arial,helvetica,sans-serif;
+}
+
+.btn{
+  font-weight: bold;
+}
+
+.approve {font-size: 0px;min-width: 100px;min-height: 22px;}
+.approve::after {font-size: 16px;}
+
+.approve::after {
+  content: "Approval Status";
+  }
+
+.approve:hover::after{
+  content: "Wait for Approvals";
+  /* margin-right: 60%; */
 }

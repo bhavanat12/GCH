@@ -18,16 +18,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # docusign APIs
 
 
-CLIENT_AUTH_ID = '' # Integration Key. (You can get it from Docusign/Settings/Integrations/Apps and Keys/<App name>. App name that you have created in step 2.)
-CLIENT_SECRET_KEY = '' # API Username. (You can get it from Docusign/Settings/Integrations/Apps and Keys/API Username)
-account_id = '' # API Account ID. (You can get it from Docusign/Settings/Integrations/Apps and Keys/API Account ID)
+CLIENT_AUTH_ID = '6b506df0-3b1e-44f5-9b8c-859c3e6a4bc7' # Integration Key. (You can get it from Docusign/Settings/Integrations/Apps and Keys/<App name>. App name that you have created in step 2.)
+CLIENT_SECRET_KEY = '68dfe0ec-85cd-4b58-a594-28901f00dd1b' # API Username. (You can get it from Docusign/Settings/Integrations/Apps and Keys/API Username)
+account_id = 'eb22e206-82e7-45fd-9c2c-4d991074bbb6' # API Account ID. (You can get it from Docusign/Settings/Integrations/Apps and Keys/API Account ID)
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'goodcodehack@gmail.com'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = 'devpost@123'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -40,7 +40,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-SWEETIFY_SWEETALERT_LIBRARY = 'sweetalert2'
 
 
 # Application definition
@@ -54,8 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'sweetify',
+    'django.contrib.staticfiles'
 ]
 
 MIDDLEWARE = [

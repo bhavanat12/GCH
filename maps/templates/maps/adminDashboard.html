@@ -18,26 +18,27 @@
 
 </head>
 
-<body>
+<body class="background" style="background-image: url('{% static "maps/media/admin_background.jpg" %}')";>
 	<header class="site-header">
-		<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+		<nav class="navbar navbar-expand-md fixed-top" style="margin: 10px;opacity: 0.8;filter:(opacity=80); height:100px;border: 5px solid #6e8824;background-color:white; width: 70%; position: absolute;left: 14%;">
 	    	<div class="container">
-		      	<a class="navbar-brand mr-4" href="{% url 'dashboard-home' %}">Django App</a>
-		      	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+		      	<a class="navbar-brand mr-4" href="{% url 'dashboard-home' %}">
+              <img src="{% static 'maps/media/Logo.jpg' %}" href="{% url 'dashboard-home' %}" style="height: 90px;" alt="My image">
+		      	</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
 		      	<span class="navbar-toggler-icon"></span>
 		      	</button>
 		      	<div class="collapse navbar-collapse" id="navbarToggle">
 		        	<div class="navbar-nav mr-auto">
-		         		<a class="nav-item nav-link" href="{% url 'dashboard-home' %}">Home</a>
+		         		<a class="nav-item nav-link" style="color: #6e8824 !;" href="{% url 'dashboard-home' %}">Home</a>
 		        	</div>
-			        <!-- Navbar Right Side -->
-			        <div class="navbar-nav" style=height:50px>
+			        <div class="navbar-nav" style=height:42px>
 			        	{% if user.is_authenticated %}
-                            <p class="nav-item nav-link"> Welcome Admin!</p> &nbsp; &nbsp; &nbsp; &nbsp;
-			        		<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                            <p class="nav-item nav-link" style="color: #6e8824 !;"> Welcome Admin!</p> &nbsp; &nbsp; &nbsp; &nbsp;
+			        		<a class="nav-item nav-link" style="color: #6e8824 !;" href="{% url 'logout' %}">Logout</a>
 			        	{% else %}
-			        		<a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-			          		<a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+			        		<a class="nav-item nav-link" style="color: #6e8824 !;" href="{% url 'login' %}">Login</a>
+			          		<a class="nav-item nav-link" style="color: #6e8824 !;" href="{% url 'register' %}">Register</a>
 			        	{% endif %}
 			        </div>
 		      	</div>
@@ -46,86 +47,67 @@
 	</header>
 	<main role="main" class="container">
 	  <div class="row">
-	    <div class="col-md-8">
-            <main role="main" class="container">
-                <div class="row">
-                  <div class="col-md-8">
-                  </div>
-                  <div class="col-md-4">
-                  </div>
-                </div>
-              </main>
-	    </div>
 
-        <div style=width:100%>
-            <form method="POST" action="{% url 'reviewer-review' %}">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-warning">Send Map for Review</button>
-            </form>
-            <br><br>
-            <form method="POST" action="{% url 'meet-schedule' %}">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-warning">Schedule a meeting</button>
-            </form>
+        <div style="background-color: White;opacity: 85%; margin-top: 5%;width: 60%;margin-left: 15%;">
+            
             <div class="content-section">
-              <h3>My Sign Dashboard</h3>
+              <div class="content-section" style="float: left;">
 
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">Signs received</th>
-                    <th scope="col">Signs required</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                      <td>{{ signCount }}</td>
-                      <td>{{ usersCount }}</td>
-                  </tr>
-                  </tbody>
-                </table>
-                <h3>My Approval Dashboard</h3>
-  
-              <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th scope="col">Reviewer</th>
-                      <th scope="col">Approvals received</th>
-                      <th scope="col">Required Approvals</th>
-                      <th scope="col">View Map</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                      <td>dfljl</td>
-                      <td>{{ ApprovalCount }}</td>
-                      <td>{{ usersCount }}</td>
-                      <form method="POST" action={% url 'dashboard-home' %}>
+                <input type="hidden" name="csrfmiddlewaretoken" value="ZCFfZJNQmsN6pGBdPLIbtWuCR5qilrQQcPLTUnuQgHyWVIIOOKwtmO3CYUxQ3L1a">
+                  <!-- <div class="progress" style="height: 28px;" >
+                    <div role="progressbar" style="color: black; font-weight: bold;font-size: 14px;" class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-valuenow=0 aria-valuemin="0" aria-valuemax=3 >
+                      0/3
+                    </div>
+                  </div> -->
+                  <div style="margin-left: 39%;">
+                    <p style="display: inline-block;font-size: 60px;font-weight: bold;"> {{ signCount }} </p>
+                    <p style="display: inline-block;">/ {{ usersCount }} </p>
+                  </div>
+                  <!-- <br> -->
+                  <button type="submit" class="btn btn-warning">Signatures on Approved Map</button>
+                  <!-- <br><hr><br> -->
+                <!-- <form method="POST" action=/>
+                    <input type="hidden" name="csrfmiddlewaretoken" value="ZCFfZJNQmsN6pGBdPLIbtWuCR5qilrQQcPLTUnuQgHyWVIIOOKwtmO3CYUxQ3L1a">
+                    <input type=hidden name=graphDetails value=[{&quot;geometry&quot;:{&quot;spatialReference&quot;:{&quot;latestWkid&quot;:3857,&quot;wkid&quot;:102100},&quot;rings&quot;:[[[1659717.0782989291,2967994.352578598],[3606721.0627784217,2547284.9488971],[1857771.398893233,1921462.7049509622],[641211.7012270999,2537403.5090590045],[1023761.002966431,3496327.092085596],[1356414.9500634307,3623518.3071520957],[1659717.0782989291,2967994.352578598]],[[3655640.76088092,1011206.4284786065],[544347.9615619341,1451483.7114011045],[1857771.398893233,1921462.7049509622],[3655640.76088092,1011206.4284786065]],[[289965.531428935,1656946.4434316037],[-228583.26845756266,2977778.2921990985],[641211.7012270999,2537403.5090590045],[289965.531428935,1656946.4434316037]]]},&quot;symbol&quot;:{&quot;type&quot;:&quot;esriSFS&quot;,&quot;color&quot;:[150,150,150,51],&quot;outline&quot;:{&quot;type&quot;:&quot;esriSLS&quot;,&quot;color&quot;:[50,50,50,255],&quot;width&quot;:2,&quot;style&quot;:&quot;esriSLSSolid&quot;},&quot;style&quot;:&quot;esriSFSSolid&quot;},&quot;attributes&quot;:{}},{&quot;geometry&quot;:{&quot;spatialReference&quot;:{&quot;latestWkid&quot;:3857,&quot;wkid&quot;:102100},&quot;rings&quot;:[[[-1500495.419122559,2390741.914969101],[-277502.9665600639,2478797.3715536008],[-111175.99301156495,1803705.5377391037],[-1402656.0229175594,1921112.8131851032],[-1373304.204056059,2107007.6659746026],[-1500495.419122559,2390741.914969101]]]},&quot;symbol&quot;:{&quot;type&quot;:&quot;esriSFS&quot;,&quot;color&quot;:[150,150,150,51],&quot;outline&quot;:{&quot;type&quot;:&quot;esriSLS&quot;,&quot;color&quot;:[50,50,50,255],&quot;width&quot;:2,&quot;style&quot;:&quot;esriSLSSolid&quot;},&quot;style&quot;:&quot;esriSFSSolid&quot;},&quot;attributes&quot;:{}},{&quot;geometry&quot;:{&quot;spatialReference&quot;:{&quot;latestWkid&quot;:3857,&quot;wkid&quot;:102100},&quot;paths&quot;:[[[3861102.8957471354,498588.5149645391],[4502929.693150503,475107.71675605094],[3892411.621965592,5478.614972053096],[4244633.4483035905,-2348.7158736321144],[3782831.3787831357,-542422.0037759449],[4307250.900740503,-675483.940913314]]]},&quot;symbol&quot;:{&quot;type&quot;:&quot;esriSLS&quot;,&quot;color&quot;:[130,130,130,255],&quot;width&quot;:2,&quot;style&quot;:&quot;esriSLSSolid&quot;},&quot;attributes&quot;:{}},{&quot;geometry&quot;:{&quot;spatialReference&quot;:{&quot;latestWkid&quot;:3857,&quot;wkid&quot;:102100},&quot;rings&quot;:[[[1520785.0162549727,2557130.097856659],[2867055.4663343374,2517994.339374659],[2076513.2644307967,1586563.317361277],[941576.2684528017,1703970.5928072766],[1520785.0162549727,2557130.097856659]]]},&quot;symbol&quot;:{&quot;type&quot;:&quot;esriSFS&quot;,&quot;color&quot;:[150,150,150,51],&quot;outline&quot;:{&quot;type&quot;:&quot;esriSLS&quot;,&quot;color&quot;:[50,50,50,255],&quot;width&quot;:2,&quot;style&quot;:&quot;esriSLSSolid&quot;},&quot;style&quot;:&quot;esriSFSSolid&quot;},&quot;attributes&quot;:{}}]></input>
+                    <input type=hidden name=layer value=https://services3.arcgis.com/nTlnK5Q4GIhY3A7b/arcgis/rest/services/docusign_hackathon/FeatureServer/0></input>
+                    <input type=hidden name=commentData value=></input>
+                    <td><button type=submit class="btn btn-info">View graph</button></td>
+                </form> -->
+                
+            </div>
+            <div class="content-section" style="float: right;margin-right: 13%;">
+
+                      <!-- <form method="POST" action={% url 'dashboard-home' %}>
                           {% csrf_token %}
                           <input type=hidden name=graphDetails value={{ prevGraph }}></input>
                           <input type=hidden name=layer value={{ layer }}></input>
                           <input type=hidden name=commentData value={{ commentData }}></input>
-                          <td><button type=submit class="btn btn-info">View graph</button></td>
-                      </form>
+                          <button type=submit class="btn btn-info">View graph</button>
+                      </form> -->
                       <form method="POST" action={% url 'approved-revision' %}>
                         {% csrf_token %}
                         {% if approveStatus %}
-                          <td><button type=submit class="btn btn-info">Approve Revision</button></td>
+                        <div style="margin-right: 10%;float: right;">
+                          <p style="display: inline-block;font-size: 60px;font-weight: bold"> {{ ApprovalCount }} </p>
+                          <p style="display: inline-block;">/ {{ usersCount }} </p>
+                        </div>
+                        <button type="submit" style="margin-right: 44%;padding-left: 40%;padding-right: 40%" class="btn btn-success">Approve</button>
                         {% else %}
-                          <td><button type=submit class="btn btn-info">Approve Revision</button></td>
+                        <div style="margin-right: 10%;float: right;">
+                          <p style="display: inline-block;font-size: 60px;font-weight: bold"> {{ ApprovalCount }} </p>
+                          <p style="display: inline-block;">/ {{ usersCount }} </p>
+                        </div>
+                        <button type="submit" style="margin-right: 44%;padding-left: 40%;padding-right: 40%" class="btn btn-warning approve" disabled=""></button>
                         {% endif %}
                         
                     </form>
-                  </tr>
-                  </tbody>
-                </table>
+                    </div>
             </div>
           </div>
         </div>
-
-	    <div style=width:100%>
-	      <div class="content-section">
-	        <h3>My Dashboard</h3>
+        <div style="background-color: White;opacity: 85%; margin-top: 5%;width: 90%;margin-left: 5%;">
+          <div class="content-section" style="max-height: 510px;overflow-y:scroll;">
+	        <h3>User Requests</h3>
           <h3 id="csrfToken" hidden>{{ csrf_token }}</h3>
 
 
@@ -139,25 +121,34 @@
                   </tr>
                 </thead>
                 <tbody>
-                {% for reviewItems in reviewedItems %}
-                <tr>
-                    <td>{{ reviewItems.reviewer }}</td>
-                    <td>{{ reviewItems.status }}</td>
-                    <td>{{ reviewItems.dateSubmitted }}</td>
-                    <form method="POST" action={% url 'admin-graph-view' %}>
-                        {% csrf_token %}
-                        <input type=hidden name=Reviewer value={{ reviewItems.reviewer }}></input>
-                        <input type=hidden name=graphDetails value={{ reviewItems.geometry }}></input>
-                        <input type=hidden name=layer value={{ reviewItems.layer }}></input>
-                        <input type=hidden name=auto_inc value={{ reviewItems.auto_inc }}></input>
-                        <!-- <input type=hidden name=commentData value={{ reviewItems.commentData }}></input> -->
-                        <td><button type=submit class="btn btn-info">View graph</button></td>
-                    </form>
-                </tr>
-                {% endfor %}
+                  {% for reviewItems in reviewedItems %}
+                  <tr>
+                      <td>{{ reviewItems.reviewer }}</td>
+                      <td>{{ reviewItems.status }}</td>
+                      <td>{{ reviewItems.dateSubmitted }}</td>
+                      <form method="POST" action={% url 'admin-graph-view' %}>
+                          {% csrf_token %}
+                          <input type=hidden name=Reviewer value={{ reviewItems.reviewer }}></input>
+                          <input type=hidden name=graphDetails value={{ reviewItems.geometry }}></input>
+                          <input type=hidden name=layer value={{ reviewItems.layer }}></input>
+                          <input type=hidden name=auto_inc value={{ reviewItems.auto_inc }}></input>
+                          <!-- <input type=hidden name=commentData value={{ reviewItems.commentData }}></input> -->
+                          <td><button type=submit class="btn btn-info">View graph</button></td>
+                      </form>
+                  </tr>
+                  {% endfor %}
                 </tbody>
               </table>
 	      </div>
+        <form method="POST" action="{% url 'meet-schedule' %}">
+          {% csrf_token %}
+          <button type="submit" style="float: left;margin-top: 1%;" class="btn btn-danger">Schedule a meeting</button>
+        </form>
+        <form method="POST" action="{% url 'reviewer-review' %}">
+          {% csrf_token %}
+          <button type="submit" style="float: right;margin-top: 1%;" class="btn btn-success">Send Map to Users for Review</button>
+        </form>
+        
 	    </div>
 	  </div>
 	</main>
@@ -167,9 +158,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-    {% load sweetify %}
-    {% sweetify %}
 
   </body>
 </html>
