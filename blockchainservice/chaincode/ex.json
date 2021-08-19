@@ -1,0 +1,98 @@
+{
+"msp":{
+    "id":"Org1MSP",
+    "admin":{
+        "identity":"org1Admin",
+        "secret":"org1Adminpw"
+    }
+},
+"ca":{
+    "id":"Org1CA",
+    "admin_identity":"admin",
+    "admin_secret":"adminpw",
+    "tls":{
+        "enabled":"False"
+    },
+    "docker":{
+        "name":"JGI_ca.org1.example.com",
+        "hostname":"ca.org1.example.com",
+        "port":17050
+    }
+},
+"peers":[
+    {
+        "id":"Org1Peer1",
+        "identity":"org1peer1",
+        "secret":"org1peer1pw",
+        "database_type":"couchdb",
+        "tls":{
+            "enabled":"False"
+        },
+        "docker":{
+            "name":"JGI_peer0.org1.example.com",
+            "hostname":"peer0.org1.example.com",
+            "port":17051,
+            "chaincode_name_prefix":"JGI",
+            "chaincode_port":17052,
+            "operations_port":17053,
+            "couchdb":{
+                "name":"JGI_couchdb0.org1.example.com",
+                "hostname":"couchdb0.org1.example.com",
+                "port":17054
+            }
+        }
+    }
+],
+"nodes":"/network/nodes/Org1",
+"wallet":"/network/wallets/Org1",
+"gateways":"/network/gateways/Org1",
+"committing_peers":[
+    {
+        "id":"Org1Peer1",
+        "identity":"org1peer1",
+        "secret":"org1peer1pw",
+        "database_type":"couchdb",
+        "tls":{
+            "enabled":"False"
+        },
+        "docker":{
+            "name":"JGI_peer0.org1.example.com",
+            "hostname":"peer0.org1.example.com",
+            "port":17051,
+            "chaincode_name_prefix":"JGI",
+            "chaincode_port":17052,
+            "operations_port":17053,
+            "couchdb":{
+                "name":"JGI_couchdb0.org1.example.com",
+                "hostname":"couchdb0.org1.example.com",
+                "port":17054
+            }
+        }
+    }
+],
+"anchor_peers":[
+    {
+        "id":"Org1Peer1",
+        "identity":"org1peer1",
+        "secret":"org1peer1pw",
+        "database_type":"couchdb",
+        "tls":{
+            "enabled":"False"
+        },
+        "docker":{
+            "name":"JGI_peer0.org1.example.com",
+            "hostname":"peer0.org1.example.com",
+            "port":17051,
+            "chaincode_name_prefix":"JGI",
+            "chaincode_port":17052,
+            "operations_port":17053,
+            "couchdb":{
+                "name":"JGI_couchdb0.org1.example.com",
+                "hostname":"couchdb0.org1.example.com",
+                "port":17054
+            }
+        }
+    }
+]
+
+}

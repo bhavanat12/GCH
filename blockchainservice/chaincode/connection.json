@@ -1,0 +1,46 @@
+{
+    "certificateAuthorities": {
+        "Org1CA": {
+            "caName": "Org1ca",
+            "url": "http://localhost:17050"
+        },
+        "OrdererCA": {
+            "caName": "ordCA",
+            "url": "http://localhost:17050"
+        }
+    },
+    "client": {
+        "connection": {
+            "timeout": {
+                "orderer": "300",
+                "peer": {
+                    "endorser": "300"
+                }
+            }
+        },
+        "organization": "Org1MSP"
+    },
+    "orderers": {
+        "Orderer": {
+          "url": "http://localhost:17056"
+        }
+      },
+    "name": "Org1",
+    "organizations": {
+        "Org1MSP": {
+            "certificateAuthorities": [
+                "Org1CA"
+            ],
+            "mspid": "Org1MSP",
+            "peers": [
+                "Org1Peer1"
+            ]
+        }
+    },
+    "peers": {
+        "Org1Peer1": {
+            "url": "grpc://localhost:17051"
+        }
+    },
+    "version": "1.0.0"
+}

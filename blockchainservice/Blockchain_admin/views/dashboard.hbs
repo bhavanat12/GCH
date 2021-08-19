@@ -1,0 +1,25 @@
+<h6>Meet</h6>
+<h3>Welcome {{name}}</h3>
+{{!-- <p>Here are your stories</p> --}}
+{{#if stories}}
+<table class="striped">
+    {{!-- <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead> --}}
+    <tbody>
+        <form action="/host" method="POST">
+            <input name="room">
+            <button type="submit">Submit
+                {{!-- <i class="fas fa-trash"></i> --}}
+            </button>
+        </form>
+    </tbody>
+</table>
+{{else}}
+<p>You have not created any stories</p>
+{{/if}}

@@ -1,0 +1,38 @@
+{
+    "application":
+        {
+            "application_name":"Jane Godall Institute",
+            "application_id":"JGI",
+            "app_IP":"10.14.15.155"
+        },
+    "components":[
+        {
+            "component_name":"Web server",
+            "component_id":"nodews",
+            "component_IP":"10.10.15.122"
+        },
+        {
+            "component_name":"Image recognition",
+            "component_id":"flaskws",
+            "component_IP":"10.10.15.121"
+        }
+    ],
+    "operations":[
+        {
+            "operation_name":"Add Map",
+            "operation_type":"create"
+        },
+        {
+            "operation_name":"Delete Map",
+            "operation_type":"delete"
+        },
+        {
+            "operation_name":"Update Map",
+            "operation_type":"update"
+        },
+        {
+            "operation_name":"Add Relative",
+            "operation_type":"update"
+        }
+    ]
+}
